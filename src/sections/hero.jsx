@@ -1,6 +1,6 @@
 import { words } from "../constants/index";
 import Button from "../components/button";
-import Heroexperience from "../components/models/hero_models/heroexperience";
+import Heroexperience from "../components/models/hero_models/HeroExperience";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 const Hero = () => {
