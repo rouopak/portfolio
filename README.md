@@ -6,10 +6,6 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![GSAP](https://img.shields.io/badge/GSAP-v3.15-88CE02?style=for-the-badge&logo=greensock&logoColor=black)](https://gsap.com/)
 
-A premium, interactive, and visually stunning 3D developer portfolio website built using **React 19**, **Vite**, **Three.js (React Three Fiber/Drei)**, **GSAP**, and **Tailwind CSS v4**. It features an immersive dark glassmorphism layout, real-time interactive 3D elements, physics-based micro-animations, and dynamic scroll animations.
-
-![Portfolio Banner](public/images/readme.png)
-
 ---
 
 ## ✨ Features
