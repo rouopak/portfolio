@@ -54,7 +54,8 @@ const AppShowcase = () => {
                     <div className="xl:w-1/2">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">Curated Works</h1>
                         <p className="text-[#a0a0a0] md:text-lg leading-relaxed max-w-xl">
-                            I focus on building fluid, high-performance digital experiences where motion
+                            ***This section is in progress not my actual work***
+                            <br />I focus on building fluid, high-performance digital experiences where motion
                             meets utility. Each project is a deep dive into liquid minimalism, ensuring visual
                             clarity and technical precision.
                         </p>
