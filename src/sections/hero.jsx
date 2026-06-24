@@ -1,4 +1,5 @@
 import { words } from "../constants/index";
+import { useState, useEffect } from "react";
 import Button from "../components/button";
 import Heroexperience from "../components/models/hero_models/HeroExperience";
 import { useGSAP } from "@gsap/react";
@@ -12,6 +13,16 @@ const Hero = () => {
         );
     });
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        setIsMobile(mediaQuery.matches);
+        const handleMediaQueryChange = (event) => setIsMobile(event.matches);
+        mediaQuery.addEventListener("change", handleMediaQueryChange);
+        return () => mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    }, []);
+
     return (
         <section id="hero" className="relative overflow-hidden">
             <div className="absolute top-0 left-0 z-10">
@@ -22,6 +33,10 @@ const Hero = () => {
                 {/* LEFT: Hero Content */}
                 <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
                     <div className="flex flex-col gap-7">
+                        {isMobile && <div className="flex items-center justify-center pr-5">
+                            <h6 className=" bg-yellow-100 text-black px-3 py-1 rounded-md font-medium w-fit text-center mx-auto">Hi, I just noticed your are using mobile to view my portfolio, this site needs optimization for mobile devices.Use desktop for better a expereince😊</h6>
+                        </div>}
+
                         <div className="hero-text">
                             <h1>
                                 Transforming

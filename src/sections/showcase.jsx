@@ -47,7 +47,7 @@ const AppShowcase = () => {
     }, []);
 
     return (
-        <div id="work" ref={sectionRef} className="app-showcase flex-col mt-0! pt-0 md:pt-10">
+        <div id="work" ref={sectionRef} className="relative z-10 app-showcase flex-col mt-0! pt-0 md:pt-10">
             <div className="w-full max-w-7xl mx-auto">
                 {/* About Me Section */}
                 <div className="flex flex-col xl:flex-row justify-between xl:items-end mb-12 gap-8">
