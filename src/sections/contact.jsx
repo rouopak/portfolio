@@ -95,14 +95,23 @@ const contact = () => {
                                     />
                                 </div>
 
-                                <button type="submit">
-                                    <div className="cta-button group">
+                                <button type="submit" className="w-full md:w-fit">
+                                    {/* Desktop: cta-button style */}
+                                    <div className="hidden md:flex cta-button group">
                                         <div className="bg-circle" />
                                         <p className="text">
                                             {loading ? "Sending..." : "Send Message"}
                                         </p>
                                         <div className="arrow-wrapper">
                                             <img src="/images/arrow-down.svg" alt="arrow" />
+                                        </div>
+                                    </div>
+                                    {/* Mobile: contact-btn style */}
+                                    <div className="flex md:hidden contact-btn group w-full justify-center">
+                                        <div className="inner w-full py-4 text-center">
+                                            <span>
+                                                {loading ? "Sending..." : "Send Message"}
+                                            </span>
                                         </div>
                                     </div>
                                 </button>

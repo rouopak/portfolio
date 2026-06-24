@@ -2,6 +2,7 @@ import { Environment, Float, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useState, Suspense } from "react";
 import * as THREE from "three";
+import { techStackIcons } from "../../../constants";
 
 const TechIconModel = ({ model }) => {
     const scene = useGLTF(model.modelPath);
@@ -58,5 +59,10 @@ const TechIconCardExperience = ({ model }) => {
         </Canvas>
     );
 };
+
+// Preload all 3D models at the module level for instant loading
+techStackIcons.forEach((tech) => {
+    useGLTF.preload(tech.modelPath);
+});
 
 export default TechIconCardExperience;
