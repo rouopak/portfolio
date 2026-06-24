@@ -38,19 +38,21 @@ const experiences = () => {
         });
 
         // Loop through each expText element and animate them in as they enter the screen
-        gsap.utils.toArray(".expText").forEach((text) => {
-            gsap.from(text, {
-                opacity: 0,
-                y: isMobile ? 15 : 0,
-                duration: isMobile ? 0.5 : 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: text,
-                    start: isMobile ? "top 85%" : "top 60%",
-                    toggleActions: "play none none none",
-                },
+        if (!isMobile) {
+            gsap.utils.toArray(".expText").forEach((text) => {
+                gsap.from(text, {
+                    opacity: 0,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 60%",
+                        toggleActions: "play none none none",
+                    },
+                });
             });
-        });
+        }
     }, []);
 
     return (

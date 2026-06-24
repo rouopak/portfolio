@@ -4,20 +4,29 @@ import { useEffect, useState, Suspense } from "react";
 import * as THREE from "three";
 import { techStackIcons } from "../../../constants";
 
-const TechIconModel = ({ model }) => {
+const TechIconModel = ({ model, isMobile }) => {
     const scene = useGLTF(model.modelPath);
 
     useEffect(() => {
-        if (model.name === "Interactive Developer") {
-            scene.scene.traverse((child) => {
-                if (child.isMesh) {
-                    if (child.name === "Object_5") {
-                        child.material = new THREE.MeshStandardMaterial({ color: "white" });
-                    }
+        scene.scene.traverse((child) => {
+            if (child.isMesh) {
+                if (isMobile) {
+                    const color = child.material.color || new THREE.Color("white");
+                    child.material = new THREE.MeshBasicMaterial({ color: color });
+                } else if (model.name === "Interactive Developer" && child.name === "Object_5") {
+                    child.material = new THREE.MeshStandardMaterial({ color: "white" });
                 }
-            });
-        }
-    }, [scene, model.name]);
+            }
+        });
+    }, [scene, model.name, isMobile]);
+
+    if (isMobile) {
+        return (
+            <group scale={model.scale} rotation={model.rotation}>
+                <primitive object={scene.scene} />
+            </group>
+        );
+    }
 
     return (
         <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
@@ -41,18 +50,20 @@ const TechIconCardExperience = ({ model }) => {
 
     return (
         <Canvas>
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <spotLight
-                position={[10, 15, 10]}
-                angle={0.3}
-                penumbra={1}
-                intensity={2}
-            />
-            <Environment preset="city" />
+            <ambientLight intensity={isMobile ? 1.5 : 0.3} />
+            {!isMobile && <directionalLight position={[5, 5, 5]} intensity={1} />}
+            {!isMobile && (
+                <spotLight
+                    position={[10, 15, 10]}
+                    angle={0.3}
+                    penumbra={1}
+                    intensity={2}
+                />
+            )}
+            {!isMobile && <Environment preset="city" />}
 
             <Suspense fallback={null}>
-                <TechIconModel model={model} />
+                <TechIconModel model={model} isMobile={isMobile} />
             </Suspense>
 
             <OrbitControls enableZoom={false} enablePan={!isMobile} enableRotate={!isMobile} />
