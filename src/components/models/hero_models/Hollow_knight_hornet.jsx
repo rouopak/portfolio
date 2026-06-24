@@ -23,4 +23,4 @@ export function Shaw(props) {
   )
 }
 
-useGLTF.preload('/m/hollow_knight_hornet.glb')
+useGLTF.preload('/models/hollow_knight_hornet.glb')
