@@ -1,13 +1,23 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useState, useEffect } from "react";
 import { expCards } from "../constants";
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 const experiences = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        setIsMobile(mediaQuery.matches);
+        const handleMediaQueryChange = (event) => setIsMobile(event.matches);
+        mediaQuery.addEventListener("change", handleMediaQueryChange);
+        return () => mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    }, []);
+
     useGSAP(() => {
         // Loop through each timeline card and animate them in
         // as the user scrolls to each card
@@ -102,13 +112,15 @@ const experiences = () => {
                     <div className="relative z-50 xl:space-y-32 space-y-10">
                         {expCards.map((card) => (
                             <div key={card.title} className="exp-card-wrapper">
-                                <div className="xl:w-2/6">
-                                    {(() => {
-                                        const Model = card.model;
-                                        return <Model />;
-                                    })()}
-                                </div>
-                                <div className="xl:w-4/6">
+                                {!isMobile && (
+                                    <div className="xl:w-2/6">
+                                        {(() => {
+                                            const Model = card.model;
+                                            return <Model />;
+                                        })()}
+                                    </div>
+                                )}
+                                <div className={isMobile ? "w-full" : "xl:w-4/6"}>
                                     <div className="flex items-start">
                                         <div className="timeline-wrapper">
                                             <div className="timeline" />

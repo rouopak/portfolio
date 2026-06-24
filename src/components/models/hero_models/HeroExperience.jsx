@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Shaw } from "./Hollow_knight_hornet";
@@ -23,17 +23,31 @@ const FloatingShaw = () => {
 };
 
 const heroexperience = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        setIsMobile(mediaQuery.matches);
+        const handleMediaQueryChange = (event) => setIsMobile(event.matches);
+        mediaQuery.addEventListener("change", handleMediaQueryChange);
+        return () => mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    }, []);
+
     return (
         <Canvas camera={{ fov: 50, position: [0, 2, 5] }}>
-            <OrbitControls
-                enablePan={false}
-                enableZoom={false}
-                minPolarAngle={Math.PI / 2}
-                maxPolarAngle={Math.PI / 2}
-            />
-            <HeroLights />
-            <Particles />
-            <FloatingShaw />
+            <Suspense fallback={null}>
+                <OrbitControls
+                    enablePan={false}
+                    enableZoom={false}
+                    enableRotate={!isMobile}
+                    autoRotate={isMobile}
+                    minPolarAngle={Math.PI / 2}
+                    maxPolarAngle={Math.PI / 2}
+                />
+                <HeroLights />
+                <Particles />
+                <FloatingShaw />
+            </Suspense>
         </Canvas>
     )
 }
