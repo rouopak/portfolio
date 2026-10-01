@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
@@ -7,11 +7,42 @@ import Car_model from "../components/models/contact/Car_model";
 const contact = () => {
     const formRef = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [userIp, setUserIp] = useState("Fetching...");
+    const [userLocation, setUserLocation] = useState("");
     const [form, setForm] = useState({
         name: "",
         email: "",
         message: "",
     });
+
+    useEffect(() => {
+        const fetchIpDetails = async () => {
+            try {
+                // Fetch public IP and approximate geolocation
+                const res = await fetch("https://ipapi.co/json/");
+                if (!res.ok) throw new Error("Failed to fetch location data");
+                const data = await res.json();
+                
+                setUserIp(data.ip || "Unknown IP");
+                const locationParts = [data.city, data.region, data.country_name].filter(Boolean);
+                setUserLocation(locationParts.join(", ") || "Unknown Location");
+            } catch (error) {
+                // Fallback to simple ipify if ipapi.co fails or is blocked
+                try {
+                    const fallbackRes = await fetch("https://api.ipify.org?format=json");
+                    const fallbackData = await fallbackRes.json();
+                    setUserIp(fallbackData.ip || "Unknown IP");
+                    setUserLocation("Location unavailable");
+                } catch (fallbackError) {
+                    console.error("Unable to determine IP address:", fallbackError);
+                    setUserIp("Unknown IP");
+                    setUserLocation("Unknown Location");
+                }
+            }
+        };
+
+        fetchIpDetails();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,6 +87,9 @@ const contact = () => {
                                 onSubmit={handleSubmit}
                                 className="w-full flex flex-col gap-7"
                             >
+                                <input type="hidden" name="user_ip" value={userIp} />
+                                <input type="hidden" name="user_location" value={userLocation} />
+
                                 <div>
                                     <label htmlFor="name">Your name</label>
                                     <input
